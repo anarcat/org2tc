@@ -10,6 +10,8 @@ http://ledger-cli.org/2.6/ledger.html#Using-timeclock-to-record-billable-time
 
 '''
 
+from __future__ import print_function
+
 import argparse
 import locale
 locale.setlocale(locale.LC_ALL, '')
@@ -33,6 +35,8 @@ parser.add_argument('orgfile', help='Org file to process')
 parser.add_argument('-s', '--start', metavar='TIME', help='process only entries from this date')
 parser.add_argument('-e', '--end', metavar='TIME', help='process only entries to this date')
 parser.add_argument('-r', '--regex', help='process only entries matching this regex')
+parser.add_argument('-o', '--output', help='output file (default: stdout)',
+                    type=argparse.FileType('w'), default=sys.stdout)
 args = parser.parse_args()
 
 data         = args.orgfile
@@ -132,12 +136,11 @@ def event_compare(x, y):
 events.sort(event_compare)
 
 for event in events:
-    print "i %s %s" % (time.strftime("%Y/%m/%d %H:%M:%S", event[0]), event[3])
+    print("i %s %s" % (time.strftime("%Y/%m/%d %H:%M:%S", event[0]), event[3])
+          file=args.output)
     if event[1]:
-        if event[2] == "DONE":
-            print "O",
-        else:
-            print "o",
-        print "%s" % time.strftime("%Y/%m/%d %H:%M:%S", event[1])
+        print("%s %s" % ('O' if event[2] == 'DONE' else 'o',
+                         time.strftime("%Y/%m/%d %H:%M:%S", event[1])
+              file=args.output)
 
 # org2tc ends here
