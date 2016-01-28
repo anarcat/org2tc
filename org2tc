@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 
-# A simple script that takes an org-mode file as input, and prints a timeclock
-# file as output.  This can then be read directly by Ledger for fancy time
-# reporting and querying.
+'''Take an org-mode file as input and print a timeclock file as
+output. This can then be read directly by Ledger for fancy time
+reporting and querying. Fields :BILLCODE: and :TASKCODE: are parsed to
+generate lines compatible with the format expected by ledger
+("billcode taskcode"), as documented in:
 
+http://ledger-cli.org/2.6/ledger.html#Using-timeclock-to-record-billable-time
+
+'''
+
+import argparse
 import locale
 locale.setlocale(locale.LC_ALL, '')
 import sys
@@ -19,10 +26,19 @@ def parse_timestamp(s):
 events       = []
 last_heading = None
 clocks       = []
-data         = sys.argv[1]
-range_start  = parse_timestamp(sys.argv[2]) if len(sys.argv) > 2 else None
-range_end    = parse_timestamp(sys.argv[3]) if len(sys.argv) > 3 else None
-regex        = sys.argv[4] if len(sys.argv) > 4 else None
+
+parser = argparse.ArgumentParser(description='convert org clocks into timeclock',
+                                 epilog=__doc__)
+parser.add_argument('orgfile', help='Org file to process')
+parser.add_argument('-s', '--start', metavar='TIME', help='process only entries from this date')
+parser.add_argument('-e', '--end', metavar='TIME', help='process only entries to this date')
+parser.add_argument('-r', '--regex', help='process only entries matching this regex')
+args = parser.parse_args()
+
+data         = args.orgfile
+range_start  = parse_timestamp(args.start) if args.start else None
+range_end    = parse_timestamp(args.end) if args.end else None
+regex        = args.regex
 fd           = open(data, "r")
 headings     = [None] * 9
 acct         = "<None>"
