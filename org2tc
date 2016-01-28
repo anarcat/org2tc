@@ -4,6 +4,8 @@
 # file as output.  This can then be read directly by Ledger for fancy time
 # reporting and querying.
 
+import locale
+locale.setlocale(locale.LC_ALL, '')
 import sys
 import re
 import time
