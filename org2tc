@@ -59,7 +59,7 @@ for line in fd:
         headings[depth] = match.group(2)
 
     depth = 0
-    match = re.search("^(\*+)\s+([A-Z]{4}[A-Z]*)?(\s+\[#[ABC]\])?\s*(.+)", line)
+    match = re.search("^(\*+)\s+(TODO|DONE)?(\s+\[#[ABC]\])?\s*(.+)", line)
     if match:
         if clocks:
             for (clock_in, clock_out, billcode, taskcode) in clocks:
