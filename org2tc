@@ -129,11 +129,11 @@ fd.close()
 events.sort(key=lambda x: time.mktime(x[0]))
 
 for event in events:
-    print("i %s %s" % (time.strftime(iso_date_fmt, event[0]), event[3])
+    print("i %s %s" % (time.strftime(iso_date_fmt, event[0]), event[3]),
           file=args.output)
     if event[1]:
         print("%s %s" % ('O' if event[2] == 'DONE' else 'o',
-                         time.strftime(iso_date_fmt, event[1])
+                         time.strftime(iso_date_fmt, event[1])),
               file=args.output)
 
 # org2tc ends here
