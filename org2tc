@@ -59,6 +59,9 @@ def add_events():
         for (clock_in, clock_out, billcode, taskcode) in clocks:
             if billcode and ":" not in billcode and taskcode:
                 acct = "%s:%s" % (billcode, taskcode)
+            else:
+                # no taskcode, just use billcode as account
+                acct = billcode
             events.append((clock_in, clock_out, todo_keyword,
                            ("%s  %s" % (acct, last_heading))
                            if acct else last_heading))
