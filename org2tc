@@ -52,6 +52,18 @@ acct         = "<None>"
 
 (billcode, taskcode) = ("<Unknown>", None)
 
+def add_events():
+    # XXX: those globals should really be cleaned up, maybe through a clock object or named tuple
+    global acct, clocks, billcode, taskcode, events, todo_keyword, last_heading
+    if clocks:
+        for (clock_in, clock_out, billcode, taskcode) in clocks:
+            if billcode and ":" not in billcode and taskcode:
+                acct = "%s:%s" % (billcode, taskcode)
+            events.append((clock_in, clock_out, todo_keyword,
+                           ("%s  %s" % (acct, last_heading))
+                           if acct else last_heading))
+        clocks = []
+
 for line in fd:
     match = re.search("^(\*+)\s*(.+)", line)
     if match:
@@ -61,14 +73,7 @@ for line in fd:
     depth = 0
     match = re.search("^(\*+)\s+(TODO|DONE)?(\s+\[#[ABC]\])?\s*(.+)", line)
     if match:
-        if clocks:
-            for (clock_in, clock_out, billcode, taskcode) in clocks:
-                if billcode and ":" not in billcode and taskcode:
-                    acct = "%s:%s" % (billcode, taskcode)
-                events.append((clock_in, clock_out, todo_keyword,
-                               ("%s  %s" % (acct, last_heading))
-                               if acct else last_heading))
-            clocks = []
+        add_events()
 
         depth = len(match.group(1))
         todo_keyword = match.group(2)
@@ -126,6 +131,7 @@ for line in fd:
             taskcode = match.group(1)
 
 fd.close()
+add_events()
 
 events.sort(key=lambda x: time.mktime(x[0]))
 
