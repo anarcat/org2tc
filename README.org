@@ -1,3 +1,5 @@
 #+TITLE: org2tc
 
-Description of org2tc goes here.
+Simple script to convert org-mode clock entries to timelog entries.
+
+See the org2tc file for usage and more information.
