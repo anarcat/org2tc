@@ -11,7 +11,7 @@ See also http://ledger-cli.org/2.6/ledger.html#Using-timeclock-to-record-billabl
 
 __copyright__ = 'MIT'
 __license__ = '''
-Copyright © 2011-2016 John Wiegly 
+Copyright © 2011-2016 John Wiegley 
             2016-2017 Antoine Beaupré
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
