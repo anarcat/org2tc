@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 '''Take an org-mode file as input and print a timeclock file as
 output. This can then be read directly by Ledger for fancy time
@@ -8,6 +9,8 @@ generate lines compatible with the format expected by ledger
 
 See also http://ledger-cli.org/2.6/ledger.html#Using-timeclock-to-record-billable-time
 '''
+
+from __future__ import print_function
 
 __copyright__ = 'MIT'
 __license__ = '''
@@ -32,8 +35,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
-
-from __future__ import print_function
 
 import argparse
 import locale
