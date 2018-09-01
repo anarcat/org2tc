@@ -46,7 +46,8 @@ import time
 iso_date_fmt = "%Y-%m-%d %H:%M:%S"
 
 def parse_org_time(s):
-    return time.strptime(s, "%Y-%m-%d %a %H:%M")
+    s = re.sub("[a-zA-Z]", "", s)
+    return time.strptime(s, "%Y-%m-%d %H:%M")
 
 def parse_timestamp(s):
     return time.strptime(s, iso_date_fmt)
